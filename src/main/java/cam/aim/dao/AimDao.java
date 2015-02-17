@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface AimDao {
 
-    Long create(Aim aim);
+    Integer create(Aim aim);
     Aim read(Integer id);
     boolean update(Aim aim);
     boolean delete(Aim aim);

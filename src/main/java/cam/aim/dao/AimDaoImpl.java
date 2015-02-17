@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by victor on 17.02.15.
  */
-@Repository("aimDao")
+@Repository("AimDao")
 @Transactional
 public class AimDaoImpl implements AimDao {
 
@@ -20,8 +20,8 @@ public class AimDaoImpl implements AimDao {
     SessionFactory factory;
 
     @Override
-    public Long create(Aim aim) {
-        return (Long)factory.getCurrentSession().save(aim);
+    public Integer create(Aim aim) {
+        return (Integer)factory.getCurrentSession().save(aim);
     }
 
     @Override
@@ -43,6 +43,7 @@ public class AimDaoImpl implements AimDao {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Aim> findAll() {
         List<Aim> aimList= new ArrayList<>();
         return factory.getCurrentSession().createCriteria("AIM").list();

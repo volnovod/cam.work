@@ -1,41 +1,47 @@
 package cam.aim.service;
 
-import cam.aim.dao.AimDao;
 import cam.aim.dao.AimDaoImpl;
 import cam.aim.domain.Aim;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by victor on 17.02.15.
  */
+@Repository
+@Transactional
 public class AimServiceImpl implements AimService {
 
     @Autowired
     AimDaoImpl aimDao;
+
     @Override
-    public Long createAim(Aim aim) {
-        return null;
+    public void createAim(Aim aim) {
+        aimDao.create(aim);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Aim getAim(Integer id) {
-        return null;
+        return aimDao.read(id);
     }
 
     @Override
     public boolean deleteAim(Aim aim) {
-        return false;
+        return aimDao.delete(aim);
     }
 
     @Override
     public boolean updateAim(Aim aim) {
-        return false;
+        return aimDao.update(aim);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Aim> getAllAim() {
-        return null;
+        return aimDao.findAll();
     }
 }

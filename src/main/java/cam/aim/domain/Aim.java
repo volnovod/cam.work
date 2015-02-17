@@ -55,6 +55,9 @@ public class Aim {
         this.info = info;
     }
 
+    public Aim() {
+    }
+
     @Override
     public String toString() {
         return "Aim{" +

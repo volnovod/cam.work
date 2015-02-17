@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface AimService {
 
-    Long createAim(Aim aim);
+    void createAim(Aim aim);
     Aim getAim(Integer id);
     boolean deleteAim(Aim aim);
     boolean updateAim(Aim aim);
