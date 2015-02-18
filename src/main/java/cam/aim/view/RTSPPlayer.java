@@ -1,4 +1,4 @@
-package cam.aim;
+package cam.aim.view;
 
 import uk.co.caprica.vlcj.binding.internal.libvlc_marquee_position_e;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
@@ -62,7 +62,7 @@ public class RTSPPlayer extends JFrame {
 //        Path img = Paths.get("printer_PNG7756.png");
 //        BufferedImage overlayImage = ImageIO.read(new ByteArrayInputStream(Files.readAllBytes(img)));
 //
-//        cam.aim.Overlay overlay = new cam.aim.Overlay(this, overlayImage);
+//        cam.aim.view.Overlay overlay = new cam.aim.view.Overlay(this, overlayImage);
 //        embeddedMediaPlayer.enableOverlay(true);
 //        embeddedMediaPlayer.setOverlay(overlay);
 

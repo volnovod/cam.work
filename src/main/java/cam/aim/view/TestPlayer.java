@@ -1,4 +1,4 @@
-package cam.aim;
+package cam.aim.view;
 
 import com.sun.jna.NativeLibrary;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;

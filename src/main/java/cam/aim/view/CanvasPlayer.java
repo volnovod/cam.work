@@ -1,4 +1,4 @@
-package cam.aim;
+package cam.aim.view;
 
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;

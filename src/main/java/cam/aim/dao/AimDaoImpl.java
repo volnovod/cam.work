@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by victor on 17.02.15.
  */
-@Repository("AimDao")
+@Repository
 @Transactional
 public class AimDaoImpl implements AimDao {
 
@@ -24,8 +24,8 @@ public class AimDaoImpl implements AimDao {
         return (Integer)factory.getCurrentSession().save(aim);
     }
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public Aim read(Integer id) {
         return (Aim)factory.getCurrentSession().get(Aim.class, id);
     }
@@ -42,9 +42,9 @@ public class AimDaoImpl implements AimDao {
         return false;
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public List<Aim> findAll() {
+    @Override
+        public List<Aim> findAll() {
         List<Aim> aimList= new ArrayList<>();
         return factory.getCurrentSession().createCriteria("AIM").list();
     }

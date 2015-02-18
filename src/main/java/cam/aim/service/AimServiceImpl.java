@@ -2,7 +2,9 @@ package cam.aim.service;
 
 import cam.aim.dao.AimDaoImpl;
 import cam.aim.domain.Aim;
+import org.apache.xbean.spring.context.ClassPathXmlApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +17,9 @@ import java.util.List;
 @Transactional
 public class AimServiceImpl implements AimService {
 
-    @Autowired
-    AimDaoImpl aimDao;
+//    @Autowired
+    ApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
+    AimDaoImpl aimDao = (AimDaoImpl)context.getBean("aimdao");
 
     @Override
     public void createAim(Aim aim) {

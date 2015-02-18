@@ -1,4 +1,4 @@
-package cam.aim;
+package cam.aim.view;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

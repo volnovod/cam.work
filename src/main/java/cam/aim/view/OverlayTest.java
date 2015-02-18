@@ -1,4 +1,4 @@
-package cam.aim;
+package cam.aim.view;
 
 import com.sun.jna.NativeLibrary;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
@@ -16,18 +16,17 @@ public class OverlayTest {
     private EmbeddedMediaPlayer mediaPlayer;
     private MediaPlayerFactory playerFactory;
     private static OverlayWindow overlay;
-    private final String url = "rtsp://192.168.2.212//rtsp_tunnel";
+    private final String url = "rtsp://192.168.2.232//rtsp_tunnel";
     private final String streamOption=":network-caching=150";
 
     public static void main(String[] args) {
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "/usr/lib/");
-//        new cam.aim.OverlayTest();
         SwingUtilities.invokeLater(OverlayTest::new);
 
     }
 
     public OverlayTest() {
-        JFrame frame = new JFrame("cam.aim.Overlay");
+        JFrame frame = new JFrame("cam.aim.view.Overlay");
         overlay = new OverlayWindow(frame);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setBackground(Color.BLACK);

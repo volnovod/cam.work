@@ -1,4 +1,4 @@
-package cam.aim;
+package cam.aim.view;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
