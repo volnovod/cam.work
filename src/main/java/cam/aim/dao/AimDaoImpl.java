@@ -6,18 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by victor on 17.02.15.
  */
-@Repository
+@Repository("aimDao")
 @Transactional
 public class AimDaoImpl implements AimDao {
 
     @Autowired
     SessionFactory factory;
+
+    public AimDaoImpl() {
+        System.out.println("Dao created");
+    }
 
     @Override
     public Integer create(Aim aim) {
@@ -45,7 +48,6 @@ public class AimDaoImpl implements AimDao {
     @Transactional(readOnly = true)
     @Override
         public List<Aim> findAll() {
-        List<Aim> aimList= new ArrayList<>();
         return factory.getCurrentSession().createCriteria("AIM").list();
     }
 }

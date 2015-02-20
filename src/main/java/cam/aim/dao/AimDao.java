@@ -9,8 +9,6 @@ import java.util.List;
 /**
  * Created by victor on 17.02.15.
  */
-@Repository
-@Transactional
 public interface AimDao {
 
     Integer create(Aim aim);
