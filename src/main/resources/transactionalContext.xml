@@ -10,10 +10,8 @@
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <context:annotation-config/>
-    <context:component-scan base-package="cam"/>
+    <context:component-scan base-package="cam.aim"/>
     <context:property-placeholder location="conf.properties"/>
-
 
     <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${driver}"/>
@@ -26,7 +24,7 @@
         <property name="dataSource" ref="myDataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>cam</value>
+                <value>cam.aim</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -43,6 +41,4 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="txManager" />
-
-    <!--<bean id="aimDao" class="cam.aim.dao.AimDaoImpl"/>-->
 </beans>

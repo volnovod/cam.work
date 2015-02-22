@@ -24,13 +24,13 @@ public class AimDaoImpl implements AimDao {
 
     @Override
     public Integer create(Aim aim) {
-        return (Integer)factory.getCurrentSession().save(aim);
+        return (Integer) factory.getCurrentSession().save(aim);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Aim read(Integer id) {
-        return (Aim)factory.getCurrentSession().get(Aim.class, id);
+        return (Aim) factory.getCurrentSession().get(Aim.class, id);
     }
 
     @Override

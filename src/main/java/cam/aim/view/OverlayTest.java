@@ -16,8 +16,8 @@ public class OverlayTest {
     private EmbeddedMediaPlayer mediaPlayer;
     private MediaPlayerFactory playerFactory;
     private static OverlayWindow overlay;
-    private final String url = "rtsp://192.168.2.232//rtsp_tunnel";
-    private final String streamOption=":network-caching=150";
+    private final String url = "rtsp://192.168.2.212//rtsp_tunnel";
+    private final String streamOption=":network-caching=160";
 
     public static void main(String[] args) {
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "/usr/lib/");
