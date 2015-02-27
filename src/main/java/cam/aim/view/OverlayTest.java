@@ -16,7 +16,7 @@ public class OverlayTest {
     private EmbeddedMediaPlayer mediaPlayer;
     private MediaPlayerFactory playerFactory;
     private static OverlayWindow overlay;
-    private final String url = "rtsp://192.168.2.212//rtsp_tunnel";
+    private final String url = "rtsp://192.168.2.232//rtsp_tunnel";
     private final String streamOption=":network-caching=160";
 
     public static void main(String[] args) {
@@ -34,9 +34,15 @@ public class OverlayTest {
         frame.setLocationRelativeTo(null);
 
         frame.setLayout(new BorderLayout());
+        JButton b1= new JButton("Test");
+        JPanel panel = new JPanel();
+        panel.add(b1);
         Canvas canvas = new Canvas();
         frame.add(canvas, BorderLayout.CENTER);
+        frame.add(panel, BorderLayout.WEST);
         frame.setVisible(true);
+
+
 
 
         playerFactory = new MediaPlayerFactory("-vvv");
