@@ -13,6 +13,7 @@ public class AimCalculatorImpl implements AimCalculator {
     private Aim aim;
     private final long a=6378137;//metrs
 
+
     public AimCalculatorImpl(Coordinate coordinate) {
         this.coordinate = coordinate;
         this.aim = new Aim();
