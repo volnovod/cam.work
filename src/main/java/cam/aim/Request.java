@@ -1,34 +1,39 @@
-package cam.aim.view;
+package cam.aim;
+
+import scala.Char;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 
 /**
- * Created by maxymkasyanov on 29.01.15.
+ * Created by victor on 06.03.15.
  */
-public class HttpRequest {
-
+public class Request {
 
     private String url="http://192.168.2.64/ISAPI/PTZCtrl/channels/1/status";
+    private final String USER_AGENT = "Chrome/40.0.2214.111";
 
-    private final String USER_AGENT = "Mozilla/5.0";
+    public Request() {
+    }
 
-    public HttpRequest(String url) {
+    public Request(String url) {
         this.url = url;
     }
 
-    public byte[] makeGet() throws IOException {
+    public byte[] makeGet() throws IOException{
+        URL urladr = new URL(this.url);
 
-        URL urlAddress = new URL(this.url);
+        HttpURLConnection urlConnection = (HttpURLConnection) urladr.openConnection();
 
-        HttpURLConnection urlConnection = (HttpURLConnection) urlAddress.openConnection();
 
         urlConnection.setRequestMethod("GET");
-
-        //add request header
+        String userpass = "admin" + ":" + "12345";
+        String basicAuth = "Basic " + javax.xml.bind.DatatypeConverter.printBase64Binary(userpass.getBytes());
+        urlConnection.setRequestProperty ("Authorization", basicAuth);
         urlConnection.setRequestProperty("User-Agent", USER_AGENT);
 
         int responseCode = urlConnection.getResponseCode();
@@ -43,6 +48,7 @@ public class HttpRequest {
             int n;
             while ( (n = is.read(byteChunk)) > 0 ) {
                 bais.write(byteChunk, 0, n);
+                System.out.println(n);
             }
         }
         catch (IOException e) {
@@ -54,6 +60,22 @@ public class HttpRequest {
         }
 
         return bais.toByteArray();
+
+
     }
 
+    public static void main(String[] args) {
+        Request request =new Request();
+        try {
+            byte[] res = request.makeGet();
+            char ch;
+            for(byte el: res){
+                ch = (char)el;
+                System.out.print(ch);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
 }

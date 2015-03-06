@@ -11,8 +11,8 @@ public class Coordinate {
     private double longtitudeGrad;
 
     public Coordinate(double latitude, double longtitude) {
-        this.latitude = (latitude*Math.PI)/180;
-        this.longtitude = (longtitude*Math.PI)/180;
+        this.latitude = Math.toRadians(latitude);
+        this.longtitude = Math.toRadians(longtitude);
         this.latitudeGrad = latitude;
         this.longtitudeGrad = longtitude;
     }
@@ -55,9 +55,7 @@ public class Coordinate {
     @Override
     public String toString() {
         return "Coordinate{" +
-                "latitude=" + latitude +
-                ", longtitude=" + longtitude +
-                ", latitudeGrad=" + latitudeGrad +
+                "latitudeGrad=" + latitudeGrad +
                 ", longtitudeGrad=" + longtitudeGrad +
                 '}';
     }

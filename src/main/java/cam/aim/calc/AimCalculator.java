@@ -8,6 +8,9 @@ import cam.aim.coordinate.Coordinate;
  */
 public interface AimCalculator {
 
-    Coordinate calculate(double elevation, double azimuth, long distance);
-    long calculateRadius(double latitude);
+    public double calcE();
+    public void calcCoordinate(double B, double L, double A, double S);
+    public double calcB(double B, double A, double S, double M);
+    public double calcL(double B, double A, double L, double S, double N);
+    public double calcA(double B, double A, double S, double N);
 }

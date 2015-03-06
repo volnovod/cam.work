@@ -11,44 +11,72 @@ public class AimCalculatorImpl implements AimCalculator {
 
     private Coordinate coordinate;
     private Aim aim;
-    private final long a=6378137;//metrs
+    private final long a=6378137;//meters
+    private final double f = 1/298.257223;
+    private final long b = (long) (a*(1-f));
 
-
-    public AimCalculatorImpl(Coordinate coordinate) {
-        this.coordinate = coordinate;
-        this.aim = new Aim();
+    public AimCalculatorImpl() {
+        this.coordinate = new Coordinate();
     }
 
-    @Override
-    public Coordinate calculate(double elevation, double azimuth, long distance) {
-        long radius = this.calculateRadius(this.coordinate.getLatitudeGrad());
-        double xCoordinate = radius * (this.coordinate.getLongtitudeRad());
-        double yCoordinate = radius * (Math.log(Math.tan(Math.PI/4+this.coordinate.getLatitudeRad()/2)));
-        double dx = distance * (Math.sin(azimuth));
-        double dy = distance * (Math.cos(azimuth));
 
-        double xAim = xCoordinate + (dx);
-        double yAim = yCoordinate + (dy);
-
-        System.out.println(xAim);
-        System.out.println(yAim);
-
-        double longtitude = Math.toDegrees(xAim / (radius));
-        double latitude = Math.toDegrees(2*Math.atan(Math.exp(yAim/(radius)))-Math.PI/2);
-        return (new Coordinate(latitude, longtitude));
+    public double calcE(){
+        return (Math.sqrt((a*a-b*b)/(a*a)));
     }
 
-    @Override
-    public long calculateRadius(double latitude) {
-        long resRadius = (long) (a * (0.99832407+0.00167644*Math.cos(2*latitude)-0.00000352*Math.cos(4*latitude)));//sum multiply 10e8
-        return resRadius;
+    public double[] calcNM(double B){
+        double[] res = new double[2];
+        double e = calcE();
+        double W = Math.sqrt(1-e*e*Math.sin(B*Math.PI/180)*Math.sin(B*Math.PI/180));
+        double N = a/W;
+        double M =a*(1-e*e)/(W*W*W);
+        res[0] = N;
+        res[1] = M;
+        return res;
     }
 
     public static void main(String[] args) {
-        Coordinate coordinate1 = new Coordinate(50.155446,31.904916);
-        AimCalculator calculator = new AimCalculatorImpl(coordinate1);
-        Coordinate coordinate2 = new Coordinate();
-        coordinate2 = calculator.calculate(123.23, 6.23, (long)435);
-        System.out.println(calculator.calculateRadius(coordinate1.getLatitudeGrad()));
+        AimCalculatorImpl calc = new AimCalculatorImpl();
+        calc.calcCoordinate(48.489024, 30.804334, 0, 1700);
+        System.out.println(calc.getCoordinate());
+    }
+
+
+
+
+    //    B,L,A must be grad
+    public void calcCoordinate(double B, double L, double A, double S){
+        double[] NM = calcNM(B);
+        double N = NM[0];
+        double M = NM[1];
+        this.coordinate.setLatitudeGrad(calcB(B, A, S, M));
+        this.coordinate.setLongtitudeGrad(calcL(B, A, L, S, N));
+    }
+
+    /* result in degrees*/
+    public double calcB(double B, double A, double S, double M){
+        double res;
+        res = Math.toDegrees(S * Math.cos(Math.toRadians(A))/M) + B;
+        return res;
+    }
+
+    public double calcL(double B, double A, double L, double S, double N){
+        double res;
+        res = Math.toDegrees(S * Math.sin(Math.toRadians(A))/(N * Math.cos(Math.toRadians(B)))) + L;
+        return res;
+    }
+
+    public double calcA(double B, double A, double S, double N){
+        double res;
+        res = Math.toDegrees(S * Math.sin(Math.toRadians(A)) * Math.tan(Math.toRadians(B)) / N) + A;
+        return res;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 }

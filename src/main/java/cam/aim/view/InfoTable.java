@@ -1,9 +1,14 @@
 package cam.aim.view;
 
+import cam.aim.domain.Aim;
+import cam.aim.service.AimService;
+import cam.aim.service.AimServiceImpl;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 /**
  * Created by victor on 18.02.15.
@@ -14,24 +19,21 @@ public class InfoTable extends JPanel {
     public InfoTable() {
         super(new GridLayout(1, 0));
 
-        String[] columnNames = {"First Name",
-                "Last Name",
-                "Sport",
-                "# of Years",
-                "Vegetarian"};
+        String[] columnNames = {"Номер",
+                "Кут місця", "Азут", "Info"};
 
-        Object[][] data = {
-                {"Kathy", "Smith",
-                        "Snowboarding", new Integer(5), new Boolean(false)},
-                {"John", "Doe",
-                        "Rowing", new Integer(3), new Boolean(true)},
-                {"Sue", "Black",
-                        "Knitting", new Integer(2), new Boolean(false)},
-                {"Jane", "White",
-                        "Speed reading", new Integer(20), new Boolean(true)},
-                {"Joe", "Brown",
-                        "Pool", new Integer(10), new Boolean(false)}
-        };
+
+        AimService service = new AimServiceImpl();
+        List<Aim> list = service.getAllAim();
+        Object[][] data = new String[0][];
+        Aim aim = new Aim();
+        for(int i = 0; i < list.size(); i++){
+            aim = list.get(i);
+            data[i][0]=aim.getId().toString();
+            data[i][1]=aim.getElevation().toString();
+            data[i][2]=aim.getAzimuth().toString();
+            data[i][3]=aim.getInfo().toString();
+        }
 
         final JTable table = new JTable(data, columnNames);
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));

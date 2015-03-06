@@ -48,6 +48,6 @@ public class AimDaoImpl implements AimDao {
     @Transactional(readOnly = true)
     @Override
         public List<Aim> findAll() {
-        return factory.getCurrentSession().createCriteria("AIM").list();
+        return factory.getCurrentSession().createCriteria(Aim.class).list();
     }
 }

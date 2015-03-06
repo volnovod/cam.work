@@ -13,9 +13,11 @@ public class Main {
 
     public static void main(String[] args) {
  //     SwingUtilities.invokeLater(cam.aim.view.MainFrame::new);
-        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "/usr/lib/");
+//        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "/usr/lib/");
 //        SwingUtilities.invokeLater(cam.aim.view.RTSPPlayer::new);
 //        SwingUtilities.invokeLater(cam.aim.view.CanvasPlayer::new);
+
+
     }
 
 
