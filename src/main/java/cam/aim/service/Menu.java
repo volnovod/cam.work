@@ -19,12 +19,6 @@ public class Menu {
 //        aim.setInfo("testhome");
 //        service.createAim(aim);
 
-        List<Aim> list = service.getAllAim();
-        for(Aim aim: list){
-            System.out.println(aim.toString());
-        }
-//        System.out.println(list.toString());
-//        Aim aim = service.getAim(2);
-//        System.out.println(aim.toString());
+
     }
 }

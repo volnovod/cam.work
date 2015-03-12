@@ -1,17 +1,26 @@
 package cam.aim.view;
 
+import cam.aim.Request;
+import cam.aim.domain.Aim;
+import cam.aim.service.AimService;
+import cam.aim.service.AimServiceImpl;
 import com.sun.jna.NativeLibrary;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
 /**
  * Created by victor on 12.02.15.
  */
-public class OverlayTest {
+public class OverlayTest implements MouseListener {
 
     private EmbeddedMediaPlayer mediaPlayer;
     private MediaPlayerFactory playerFactory;
@@ -22,6 +31,7 @@ public class OverlayTest {
     public static void main(String[] args) {
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "/usr/lib/");
         SwingUtilities.invokeLater(OverlayTest::new);
+
 
     }
 
@@ -34,12 +44,64 @@ public class OverlayTest {
         frame.setLocationRelativeTo(null);
 
         frame.setLayout(new BorderLayout());
-        JButton b1= new JButton("Test");
+        InfoTable table = new InfoTable();
         JPanel panel = new JPanel();
-        panel.add(b1);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+
+        JTextField elev = new JTextField();
+        JTextField  azim= new JTextField();
+        JTextField inf = new JTextField();
+
+        JLabel labelElevation = new JLabel();
+        labelElevation.setText("Кут місця");
+
+        JLabel labelAzimuth = new JLabel();
+        labelAzimuth.setText("Азимут");
+
+        JLabel labelInfo = new JLabel();
+        labelInfo.setText("Инфо");
+
+        JButton button1 =new JButton("Calc");
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                long elevation = Long.parseLong(elev.getText());
+                long azimuth = Long.parseLong(azim.getText());
+                String info = inf.getText();
+                elev.setText("");
+                azim.setText("");
+                inf.setText("");
+                Aim aim = new Aim();
+                aim.setAzimuth(azimuth);
+                aim.setElevation(elevation);
+                aim.setInfo(info);
+
+                AimService service = new ClassPathXmlApplicationContext("transactionalContext.xml").getBean("service", AimServiceImpl.class);
+                service.createAim(aim);
+
+                table.repaint();
+            }
+        });
+
+        panel.add(table);
+        panel.add(labelElevation);
+        panel.add(elev);
+        panel.add(labelAzimuth);
+        panel.add(azim);
+        panel.add(labelInfo);
+        panel.add(inf);
+        panel.add(button1);
         Canvas canvas = new Canvas();
-        frame.add(canvas, BorderLayout.CENTER);
+
+
+        JButton button = new JButton("Створити ціль");
+        button.addMouseListener(this);
         frame.add(panel, BorderLayout.WEST);
+        frame.add(canvas);
+        frame.add(button, BorderLayout.SOUTH);
+
+
         frame.setVisible(true);
 
 
@@ -54,6 +116,32 @@ public class OverlayTest {
         frame.pack();
 
 
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("Mouse click");
+        Request request = new Request();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }

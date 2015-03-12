@@ -3,6 +3,7 @@ package cam.aim.view;
 import cam.aim.domain.Aim;
 import cam.aim.service.AimService;
 import cam.aim.service.AimServiceImpl;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,24 +20,33 @@ public class InfoTable extends JPanel {
     public InfoTable() {
         super(new GridLayout(1, 0));
 
-        String[] columnNames = {"Номер",
-                "Кут місця", "Азут", "Info"};
+        String[] columnNames = {"№",
+                "Місце", "Азимут", "Info"};
 
 
-        AimService service = new AimServiceImpl();
+        AimService service = new ClassPathXmlApplicationContext("transactionalContext.xml").getBean("service", AimServiceImpl.class);
         List<Aim> list = service.getAllAim();
-        Object[][] data = new String[0][];
+        Object[][] data = new String[list.size()][columnNames.length];
         Aim aim = new Aim();
         for(int i = 0; i < list.size(); i++){
             aim = list.get(i);
+            System.out.println(list.size());
             data[i][0]=aim.getId().toString();
             data[i][1]=aim.getElevation().toString();
             data[i][2]=aim.getAzimuth().toString();
-            data[i][3]=aim.getInfo().toString();
+            data[i][3]=aim.getInfo();
+
         }
 
+
+
         final JTable table = new JTable(data, columnNames);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int xpos=(int)dimension.getWidth()/8;
+        int ypos=(int)dimension.getHeight()/2;
+
+        table.setPreferredScrollableViewportSize(new Dimension(xpos, ypos));
         table.setFillsViewportHeight(true);
 
         if (DEBUG) {
@@ -70,35 +80,6 @@ public class InfoTable extends JPanel {
         System.out.println("--------------------------");
     }
 
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event-dispatching thread.
-     */
-    private static void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame("SimpleTableDemo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Create and set up the content pane.
-        InfoTable newContentPane = new InfoTable();
-        newContentPane.setOpaque(true); //content panes must be opaque
-        frame.setContentPane(newContentPane);
 
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                createAndShowGUI();
-            }
-        });
-
-    }
 }

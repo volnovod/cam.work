@@ -20,7 +20,6 @@ public class AimServiceImpl implements AimService {
     private AimDao aimDao;
 
     public AimServiceImpl() {
-        System.out.println("Service created");
     }
 
     @Override

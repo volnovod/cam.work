@@ -1,33 +1,22 @@
 package cam.aim.view;
 
-import com.sun.jna.NativeLibrary;
-import uk.co.caprica.vlcj.runtime.RuntimeUtil;
-
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by maxymkasyanov on 30.01.15.
+ * Created by victor on 11.03.15.
  */
-public class Main {
-
-
-//    public static void main(String[] args) {
-// //     SwingUtilities.invokeLater(cam.aim.view.MainFrame::new);
-////        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "/usr/lib/");
-////        SwingUtilities.invokeLater(cam.aim.view.RTSPPlayer::new);
-////        SwingUtilities.invokeLater(cam.aim.view.CanvasPlayer::new);
-//
-//
-//    }
+public class LeftPanel extends JPanel {
 
     public static void addComponentsToPane(Container pane) {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
         addAButton("Button 1", pane);
-        addAButton("Button 2", pane);
-        addAButton("Button 3", pane);
-        addAButton("Long-Named Button 4", pane);
-        addAButton("5", pane);
+
+    }
+
+    public void addTextField(String text){
+
     }
 
     private static void addAButton(String text, Container container) {
@@ -54,7 +43,4 @@ public class Main {
             }
         });
     }
-
-
-
 }
