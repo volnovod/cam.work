@@ -32,8 +32,8 @@ public class InfoTable extends JPanel {
             aim = list.get(i);
             System.out.println(list.size());
             data[i][0]=aim.getId().toString();
-            data[i][1]=aim.getElevation().toString();
-            data[i][2]=aim.getAzimuth().toString();
+            data[i][1]=aim.getLatitude();
+            data[i][2]=aim.getLongtitude();
             data[i][3]=aim.getInfo();
 
         }

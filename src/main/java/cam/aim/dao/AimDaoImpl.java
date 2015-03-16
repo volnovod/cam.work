@@ -19,7 +19,7 @@ public class AimDaoImpl implements AimDao {
     SessionFactory factory;
 
     public AimDaoImpl() {
-        System.out.println("Dao created");
+
     }
 
     @Override

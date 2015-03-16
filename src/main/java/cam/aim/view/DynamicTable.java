@@ -20,13 +20,22 @@ public class DynamicTable extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
+
         AimService service = new ClassPathXmlApplicationContext("transactionalContext.xml").getBean("service", AimServiceImpl.class);
         List<Aim> list = service.getAllAim();
 
         MyTableModel model = new MyTableModel();
         model.setBeans(list);
         JTable table = new JTable(model);
+        this.setBounds(0, 0, 300, 200);
         getContentPane().add(new JScrollPane(table));
+        JButton button = new JButton("Save");
+
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int xpos=(int)dimension.getWidth()/8;
+        int ypos=(int)dimension.getHeight()/2;
+
+        table.setPreferredScrollableViewportSize(new Dimension(xpos, ypos));
 
     }
 

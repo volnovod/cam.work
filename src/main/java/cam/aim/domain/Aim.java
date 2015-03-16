@@ -14,14 +14,24 @@ public class Aim {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     private Integer id;
 
-    @Column(name = "ELEVATION", nullable = false)
-    private Long elevation;
+    @Column(name = "LATITUDE", nullable = false)
+    private double latitude;
 
-    @Column(name = "AZIMUTH", nullable = false)
-    private Long azimuth;
+    @Column(name = "LONGTITUDE", nullable = false)
+    private double longtitude;
 
     @Column(name = "OTHERINFO", nullable = true)
     private String info;
+
+    @Override
+    public String toString() {
+        return "Aim{" +
+                "id=" + id +
+                ", latitude=" + latitude +
+                ", longtitude=" + longtitude +
+                ", info='" + info + '\'' +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -31,20 +41,20 @@ public class Aim {
         this.id = id;
     }
 
-    public Long getElevation() {
-        return elevation;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setElevation(Long elevation) {
-        this.elevation = elevation;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public Long getAzimuth() {
-        return azimuth;
+    public double getLongtitude() {
+        return longtitude;
     }
 
-    public void setAzimuth(Long azimuth) {
-        this.azimuth = azimuth;
+    public void setLongtitude(double longtitude) {
+        this.longtitude = longtitude;
     }
 
     public String getInfo() {
@@ -53,18 +63,5 @@ public class Aim {
 
     public void setInfo(String info) {
         this.info = info;
-    }
-
-    public Aim() {
-    }
-
-    @Override
-    public String toString() {
-        return "Aim{" +
-                "id=" + id +
-                ", elevation=" + elevation +
-                ", azimuth=" + azimuth +
-                ", info='" + info + '\'' +
-                '}';
     }
 }

@@ -3,6 +3,7 @@ package cam.aim.view;
 import cam.aim.domain.Aim;
 
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,9 +13,11 @@ import java.util.Set;
 /**
  * Created by Виктор on 12.03.2015.
  */
-public class MyTableModel implements TableModel {
+public class MyTableModel extends AbstractTableModel{
 
     private Set<TableModelListener> listeners = new HashSet<>();
+
+    private List<Aim> beans;
 
     public List<Aim> getBeans() {
         return beans;
@@ -24,7 +27,9 @@ public class MyTableModel implements TableModel {
         this.beans = beans;
     }
 
-    private List<Aim> beans;
+
+
+
 
     @Override
     public int getRowCount() {
@@ -40,13 +45,13 @@ public class MyTableModel implements TableModel {
     public String getColumnName(int columnIndex) {
         switch (columnIndex){
             case 0:
-                return "Id";
+                return "№";
             case 1:
-                return "Elevation";
+                return "Широта";
             case 2:
-                return "Azimuth";
+                return "Довгота";
             case 3:
-                return "Info";
+                return "Інфо";
         }
         return "";
     }
@@ -57,9 +62,9 @@ public class MyTableModel implements TableModel {
             case 0:
                 return Integer.class;
             case 1:
-                return Long.class;
+                return Double.class;
             case 2:
-                return Long.class;
+                return Double.class;
             case 3:
                 return String.class;
         }
@@ -78,9 +83,9 @@ public class MyTableModel implements TableModel {
             case 0:
                 return aim.getId();
             case 1:
-                return aim.getElevation();
+                return aim.getLatitude();
             case 2:
-                return aim.getAzimuth();
+                return aim.getLongtitude();
             case 3:
                 return aim.getInfo();
         }

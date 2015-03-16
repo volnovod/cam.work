@@ -17,8 +17,16 @@ public class AimCalculatorImpl implements AimCalculator {
 
     public AimCalculatorImpl() {
         this.coordinate = new Coordinate();
+        this.aim = new Aim();
     }
 
+    public Aim getAim() {
+        return aim;
+    }
+
+    public void setAim(Aim aim) {
+        this.aim = aim;
+    }
 
     public double calcE(){
         return (Math.sqrt((a*a-b*b)/(a*a)));
@@ -38,7 +46,7 @@ public class AimCalculatorImpl implements AimCalculator {
     public static void main(String[] args) {
         AimCalculatorImpl calc = new AimCalculatorImpl();
         calc.calcCoordinate(48.489024, 30.804334, 0, 1700);
-        System.out.println(calc.getCoordinate());
+        System.out.println(calc.getAim().toString());
     }
 
 
@@ -51,6 +59,8 @@ public class AimCalculatorImpl implements AimCalculator {
         double M = NM[1];
         this.coordinate.setLatitudeGrad(calcB(B, A, S, M));
         this.coordinate.setLongtitudeGrad(calcL(B, A, L, S, N));
+        this.aim.setLatitude(this.coordinate.getLatitudeGrad());
+        this.aim.setLongtitude(this.coordinate.getLongtitudeGrad());
     }
 
     /* result in degrees*/

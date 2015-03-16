@@ -33,6 +33,7 @@ public class OverlayWindow extends Window {
         g2.setPaint(gp);
         g2.drawString("Cam1", 100, 100);
         g2.setColor(Color.red);
+        g2.setStroke(new BasicStroke(5.0f));
         g2.drawLine(xpos, (ypos-100), xpos, (ypos+100));
         g2.drawLine((xpos-100), ypos, (xpos+100), ypos);
 
