@@ -5,10 +5,7 @@ import cam.aim.domain.Aim;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Виктор on 12.03.2015.
@@ -25,6 +22,18 @@ public class MyTableModel extends AbstractTableModel{
 
     public void setBeans(List<Aim> beans) {
         this.beans = beans;
+        Collections.sort(this.beans, new Comparator<Aim>() {
+            @Override
+            public int compare(Aim o1, Aim o2) {
+                if(o1.getId() > o2.getId()){
+                    return 1;
+                }
+                if(o1.getId() < o2.getId()){
+                    return -1;
+                }
+                return 0;
+            }
+        });
     }
 
 

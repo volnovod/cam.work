@@ -1,6 +1,7 @@
 package cam.aim.domain;
 
 import javax.persistence.*;
+import java.util.Comparator;
 
 /**
  * Created by victor on 17.02.15.
@@ -64,4 +65,6 @@ public class Aim {
     public void setInfo(String info) {
         this.info = info;
     }
+
+
 }
