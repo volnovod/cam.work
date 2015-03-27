@@ -23,6 +23,7 @@ public class LeftPanel extends JPanel {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(button);
+        container.add(new JTextField());
     }
 
     private static void createAndShowGUI() {

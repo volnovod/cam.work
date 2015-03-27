@@ -2,13 +2,14 @@ package cam.aim.comport;
 
 import jssc.SerialPort;
 import jssc.SerialPortException;
+import jssc.SerialPortList;
 
 /**
  * Created by victor on 20.03.15.
  */
 public class ComPortReader {
 
-    private final String comUrl = "/dev/ttyUSB1";
+    private String comUrl;
     private String longtitude;
     private String latitude;
 
@@ -29,6 +30,10 @@ public class ComPortReader {
     }
 
     public ComPortReader() {
+        String[] portNames = SerialPortList.getPortNames();
+        for(int i = 0; i < portNames.length; i++){
+            this.comUrl=portNames[i];
+        }
     }
 
     public byte[] readData(){
@@ -43,7 +48,11 @@ public class ComPortReader {
             return buffer;
 
         } catch (SerialPortException e) {
+            setLatitude("Помилка читання Com-port");
+            setLongtitude("Помилка читання Com-port");
             e.printStackTrace();
+
+
         }
         return null;
 
@@ -54,6 +63,7 @@ public class ComPortReader {
         String longt="";
 
         int counter=0;
+
 
         for(int i =0; i < 2; i++){
             lat1+=(char)buffer[i];
@@ -100,9 +110,10 @@ public class ComPortReader {
     public static void main(String[] args) {
 //        byte[] data = {49, 48, 50, 52, 46, 55, 57, 57, 57, 44, 102, 44, 48, 51, 48, 53, 56, 46, 51, 56, 53, 53, 44, 69};
         ComPortReader reader = new ComPortReader();
-        byte[] data = reader.readData();
-        reader.getCoordinates(data);
-        System.out.println(reader.getLatitude());
-        System.out.println(reader.getLongtitude());
+//        byte[] data = reader.readData();
+//        reader.getCoordinates(data);
+//        System.out.println(reader.getLatitude());
+//        System.out.println(reader.getLongtitude());
+        System.out.println(reader.comUrl);
     }
 }

@@ -23,7 +23,7 @@ public class OverlayWindow extends Window {
         super.paint(g);
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int xpos=(int)dimension.getWidth()/2;
+        int xpos=(int)(dimension.getWidth() /2 - dimension.getWidth()/8);
         int ypos=(int)dimension.getHeight()/2;
 
         Graphics2D g2 = (Graphics2D)g;
@@ -35,7 +35,8 @@ public class OverlayWindow extends Window {
         g2.setColor(Color.red);
         g2.setStroke(new BasicStroke(5.0f));
         g2.drawLine(xpos, (ypos-100), xpos, (ypos+100));
-        g2.drawLine((xpos-100), ypos, (xpos+100), ypos);
-
+        g2.drawLine((xpos - 100), ypos, (xpos + 100), ypos);
+//        g2.drawRect((xpos-xpos/10), (ypos-ypos/10), xpos/5, ypos/5);
+        g2.drawRect((xpos-xpos/20), (ypos-ypos/20), xpos/10, ypos/10);
     }
 }
