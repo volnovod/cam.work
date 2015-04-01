@@ -11,6 +11,17 @@ import java.awt.*;
  */
 public class OverlayWindow extends Window {
     private JLabel dataLable;
+    private String overlayText;
+
+    public String getOverlayText() {
+        return overlayText;
+    }
+
+    public void setOverlayText(String overlayText) {
+        this.removeAll();
+        this.overlayText = overlayText;
+        this.repaint();
+    }
 
     public OverlayWindow(Window owner) {
         super(owner, WindowUtils.getAlphaCompatibleGraphicsConfiguration());
@@ -31,7 +42,8 @@ public class OverlayWindow extends Window {
 
         GradientPaint gp = new GradientPaint(180.0f, 280.0f, new Color(255, 255, 255, 255), 250.0f, 380.0f, new Color(255, 255, 0, 0));
         g2.setPaint(gp);
-        g2.drawString("Cam1", 100, 100);
+//        g2.drawString("Ціль", 100,95);
+        g2.drawString(overlayText, 100, 100);
         g2.setColor(Color.red);
         g2.setStroke(new BasicStroke(5.0f));
         g2.drawLine(xpos, (ypos-100), xpos, (ypos+100));

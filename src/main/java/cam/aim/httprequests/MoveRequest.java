@@ -12,6 +12,26 @@ public class MoveRequest {
     private String url = "http://192.168.2.64/ISAPI/PTZCtrl/channels/1/absolute";
     private final String USER_AGENT = "Chrome/40.0.2214.111";
     private boolean isMoveAround = false;
+    private int elevation;
+    private int azimuth;
+
+    public int getAzimuth() {
+        return azimuth;
+    }
+
+    public void setAzimuth(int azimuth) {
+        this.azimuth = azimuth;
+    }
+
+    public int getElevation() {
+        return elevation;
+    }
+
+    public void setElevation(int elevation) {
+        this.elevation = elevation;
+    }
+
+
 
     public boolean isMoveAround() {
         return isMoveAround;

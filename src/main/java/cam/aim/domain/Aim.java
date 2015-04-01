@@ -26,12 +26,7 @@ public class Aim {
 
     @Override
     public String toString() {
-        return "Aim{" +
-                "id=" + id +
-                ", latitude=" + latitude +
-                ", longtitude=" + longtitude +
-                ", info='" + info + '\'' +
-                '}';
+        return " Широта-" + latitude + "\n" + "Довгота-" + longtitude;
     }
 
     public Integer getId() {

@@ -1,5 +1,6 @@
 package cam.aim.view;
 
+import cam.aim.calibration.Calibration;
 import cam.aim.httprequests.HomePositionRequest;
 import cam.aim.httprequests.MoveRequest;
 import cam.aim.httprequests.Request;
@@ -27,11 +28,39 @@ public class OverlayTest extends JFrame  {
     private EmbeddedMediaPlayer mediaPlayer;
     private MediaPlayerFactory playerFactory;
     private static OverlayWindow overlay;
-//    private final String url = "rtsp://192.168.2.232//rtsp_tunnel";
+    private MoveRequest moveRequest;
+    private Calibration calibration;
+    private Aim lastAim;
+
+    public Aim getLastAim() {
+        return lastAim;
+    }
+
+    public void setLastAim(Aim lastAim) {
+        this.lastAim = lastAim;
+    }
+
+    //    private final String url = "rtsp://192.168.2.232//rtsp_tunnel";
 //private final String url = "rtsp://admin:12345@192.168.2.64//rtsp_tunnel ";
     private final String url = "rtsp://admin:12345@192.168.2.64//ISAPI/Streaming/channels/3/rtsp_tunnel";
 //    private final String url = "v4l2:///dev/video0";
     private final String streamOption=":network-caching=300";
+
+    public MoveRequest getMoveRequest() {
+        return moveRequest;
+    }
+
+    public void setMoveRequest(MoveRequest moveRequest) {
+        this.moveRequest = moveRequest;
+    }
+
+    public Calibration getCalibration() {
+        return calibration;
+    }
+
+    public void setCalibration(Calibration calibration) {
+        this.calibration = calibration;
+    }
 
     public Rectangle getRectangle() {
         return rectangle;
@@ -55,8 +84,14 @@ public class OverlayTest extends JFrame  {
         HomePositionRequest homePositionRequest = new HomePositionRequest();
         homePositionRequest.start();
 
+        moveRequest = new MoveRequest();
+
+        calibration = new Calibration();
+
+
         JFrame frame = new JFrame("cam.aim.view.Overlay");
         overlay = new OverlayWindow(frame);
+
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setBackground(Color.BLACK);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,8 +101,15 @@ public class OverlayTest extends JFrame  {
         AimService service = new ClassPathXmlApplicationContext("transactionalContext.xml").getBean("service", AimServiceImpl.class);
         java.util.List<Aim> list = service.getAllAim();
 
+
+
         MyTableModel model = new MyTableModel();
         model.setBeans(list);
+
+        this.setLastAim(model.getBeans().get(model.getBeans().size()-1));
+
+        overlay.setOverlayText(lastAim.toString());
+
         JTable table = new JTable(model);
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int xpos=(int)dimension.getWidth()/8;
@@ -86,8 +128,9 @@ public class OverlayTest extends JFrame  {
         JTextField azim= new JTextField();
         JTextField elev = new JTextField();
         JTextField dist= new JTextField();
-        JTextField deltaA = new JTextField();
-        JTextField deltaB = new JTextField();
+        JTextField deltaA = new JTextField();// deviation to north
+        JTextField deltaB = new JTextField();// deviation to vertical
+        JTextField deltaC = new JTextField();// deviation to horizontal
 
         JLabel labelLatitude = new JLabel();
         labelLatitude.setText("Широта спостерігання");
@@ -110,18 +153,23 @@ public class OverlayTest extends JFrame  {
         JLabel labelDeltaB = new JLabel();
         labelDeltaB.setText("Відхилення від вертикалі");
 
-        JButton gpsButton = new JButton("Отримати коордитанти від GPS");
+        JLabel labelDeltaC = new JLabel();
+        labelDeltaC.setText("Відхилення від горизонталі");
+
+        JButton gpsButton = new JButton("Отримати коордитанти від GPS та відхилення");
         gpsButton.addActionListener(e -> {
             SwingWorker worker = new SwingWorker() {
                 @Override
                 protected Object doInBackground() throws Exception {
                     ComPortReader reader = new ComPortReader();
-                        byte[] data = reader.readData();
-                        if (data != null){
-                            reader.getCoordinates(data);
-                        }
-                        lat.setText(reader.getLatitude());
-                        longt.setText(reader.getLongtitude());
+                    int[] data = reader.readData();
+                    if (data != null){
+                        reader.getCoordinates(data);
+                    }
+                    lat.setText(reader.getLatitude());
+                    longt.setText(reader.getLongtitude());
+                    deltaB.setText(reader.getPitch());
+                    deltaC.setText(reader.getRoll());
                     return null;
                 }
             };
@@ -137,6 +185,7 @@ public class OverlayTest extends JFrame  {
             dist.setText("");
             deltaA.setText("");
             deltaB.setText("");
+            deltaC.setText("");
         });
 
         JButton button2 = new JButton("Отримати азимут та кут місця");
@@ -147,9 +196,22 @@ public class OverlayTest extends JFrame  {
                 protected Object doInBackground() throws Exception {
                     Request request = new Request();
                     try {
-                        request.start();
-                        azim.setText(request.getAzimuth());
-                        elev.setText(request.getElevation());
+                        if(moveRequest.isMoveAround()){
+                            request.start();
+                            double angle1 = Double.parseDouble(request.getAzimuth()) - 180;
+                            String res = "";
+                            res+= angle1;
+                            azim.setText(res);
+                            double angle2 = 180 - Double.parseDouble(request.getElevation());
+                            String res2 = "";
+                            res2+=angle2;
+                            elev.setText(res2);
+                        } else {
+                            request.start();
+                            azim.setText(request.getAzimuth());
+                            elev.setText(request.getElevation());
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -173,10 +235,16 @@ public class OverlayTest extends JFrame  {
             dist.setText("");
             deltaA.setText("");
             deltaB.setText("");
+            deltaC.setText("");
 
             AimCalculatorImpl calculator = new AimCalculatorImpl();
             calculator.calcCoordinate(latitude, longtitude, azimuth, distance);
             Aim aim = calculator.getAim();
+
+
+
+            setLastAim(aim);
+            overlay.setOverlayText(lastAim.toString());
 
             service.createAim(aim);
 
@@ -186,40 +254,59 @@ public class OverlayTest extends JFrame  {
             table.removeAll();
 
             table.setModel(model);
+
+
+            overlay.revalidate();
+            overlay.removeAll();
+            overlay.repaint();
         });
 
         JButton kalibrButton = new JButton("Калібровка");
-        MoveRequest moveRequest = new MoveRequest();
+
+
         kalibrButton.addActionListener(e ->{
-            Request request = new Request();
-            request.start();
+            SwingWorker worker = new SwingWorker() {
+                @Override
+                protected Object doInBackground() throws Exception {
+                    Request request = new Request();
+                    request.start();
 
-            int elevation = 10 * Integer.parseInt(deltaB.getText());
-            double azimuth = 10 * Double.parseDouble(request.getAzimuth());
+                    int elevation = 10 * Integer.parseInt(deltaB.getText());
+                    double azimuth = 10 * Double.parseDouble(request.getAzimuth());
 
-//            MoveRequest moveRequest = new MoveRequest();
-            boolean isMoveAround = moveRequest.isMoveAround();
+                    calibration.setDeltaA((double)elevation);
 
-            boolean isChanged = false;
+                    boolean isMoveAround = moveRequest.isMoveAround();
 
-            if(elevation > 900 && !isMoveAround && !isChanged){
-                azimuth+=1800;
-                elevation = 2 * 900 - elevation;
-                moveRequest.setIsMoveAround(true);
-                isChanged = true;
-            }
-            if(elevation > 900 && isMoveAround && !isChanged){
-                elevation = 2 * 900 - elevation;
-                isChanged = true;
-            }
-            if(elevation < 900 && isMoveAround && !isChanged){
-                azimuth -= 1800;
-                moveRequest.setIsMoveAround(false);
-                isChanged = true;
-            }
-            System.out.println(request.getAzimuth());
-            moveRequest.setRequest(elevation, azimuth);
-            moveRequest.start();
+                    boolean isChanged = false;
+
+                    if(elevation > 900 && !isMoveAround && !isChanged){
+                        azimuth+=1800;
+
+                        moveRequest.setElevation(elevation/10);
+                        moveRequest.setAzimuth((int)azimuth/10);
+                        elevation = 2 * 900 - elevation;
+                        moveRequest.setIsMoveAround(true);
+                        isChanged = true;
+                    }
+                    if(elevation > 900 && isMoveAround && !isChanged){
+                        elevation = 2 * 900 - elevation;
+                        isChanged = true;
+                    }
+                    if(elevation < 900 && isMoveAround && !isChanged){
+                        azimuth -= 1800;
+                        moveRequest.setIsMoveAround(false);
+                        isChanged = true;
+                    }
+
+
+                    System.out.println(request.getAzimuth());
+                    moveRequest.setRequest(elevation, azimuth);
+                    moveRequest.start();
+                    return null;
+                }
+            };
+            worker.execute();
         });
 
 
@@ -238,6 +325,8 @@ public class OverlayTest extends JFrame  {
         panel.add(deltaA);
         panel.add(labelDeltaB);
         panel.add(deltaB);
+        panel.add(labelDeltaC);
+        panel.add(deltaC);
         panel.add(button2);
         panel.add(gpsButton);
         panel.add(button1);

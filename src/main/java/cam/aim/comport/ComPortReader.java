@@ -12,6 +12,24 @@ public class ComPortReader {
     private String comUrl;
     private String longtitude;
     private String latitude;
+    private String pitch;
+    private String roll;
+
+    public String getPitch() {
+        return pitch;
+    }
+
+    public void setPitch(String pitch) {
+        this.pitch = pitch;
+    }
+
+    public String getRoll() {
+        return roll;
+    }
+
+    public void setRoll(String roll) {
+        this.roll = roll;
+    }
 
     public String getLongtitude() {
         return longtitude;
@@ -36,13 +54,13 @@ public class ComPortReader {
         }
     }
 
-    public byte[] readData(){
+    public int[] readData(){
 
         SerialPort serialPort = new SerialPort(comUrl);
         try {
             serialPort.openPort();
             serialPort.setParams(115200, 8 , 1, 0);
-            byte[] buffer = serialPort.readBytes(24);
+            int[] buffer = serialPort.readIntArray(32);
             System.out.println("read " + buffer.length + " bytes");
             serialPort.closePort();
             return buffer;
@@ -50,6 +68,8 @@ public class ComPortReader {
         } catch (SerialPortException e) {
             setLatitude("Помилка читання Com-port");
             setLongtitude("Помилка читання Com-port");
+            setPitch("Помилка читання Com-port");
+            setRoll("Помилка читання Com-port");
             e.printStackTrace();
 
 
@@ -58,12 +78,20 @@ public class ComPortReader {
 
     }
 
-    public void getCoordinates(byte[] buffer){
+    public void getCoordinates(int[] buffer){
         String lat1="";
         String longt="";
 
+        String ph="";
+        String rl="";
+
         int counter=0;
 
+        if(buffer[0] == 63){
+            setLatitude("GPS_Error");
+            setLongtitude("GPS_Error");
+            return;
+        }
 
         for(int i =0; i < 2; i++){
             lat1+=(char)buffer[i];
@@ -103,17 +131,43 @@ public class ComPortReader {
             counter++;
         }
         setLongtitude(longt);
+        while(buffer[counter] != 80){
+            counter++;
+        }
+        counter++;
+        ph+=(char)buffer[counter];
+//        System.out.print((char)buffer[counter]);
+        counter++;
+        ph+=buffer[counter];
+        this.setPitch(ph);
+//        System.out.println(buffer[counter]);
+
+        counter+=2;
+        rl+=(char) buffer[counter];
+//        System.out.print((char)buffer[counter]);
+        counter++;
+        rl+= buffer[counter];
+//        System.out.println(buffer[counter]);
+
+        this.setRoll(rl);
 
 
     }
 
     public static void main(String[] args) {
-//        byte[] data = {49, 48, 50, 52, 46, 55, 57, 57, 57, 44, 102, 44, 48, 51, 48, 53, 56, 46, 51, 56, 53, 53, 44, 69};
+        int[] data = {49, 48, 50, 52, 46, 55, 57, 57, 57, 44, 102, 44, 48, 51, 48, 53, 56, 46, 51, 56, 53, 53, 44, 69, 44, 80, 45, 105, 82, 43, 255};
         ComPortReader reader = new ComPortReader();
-//        byte[] data = reader.readData();
-//        reader.getCoordinates(data);
-//        System.out.println(reader.getLatitude());
-//        System.out.println(reader.getLongtitude());
-        System.out.println(reader.comUrl);
+////        byte[] data = reader.readData();
+        reader.getCoordinates(data);
+        System.out.println("Latitude " + reader.getLatitude());
+        System.out.println("Longtitude " + reader.getLongtitude());
+        System.out.println("Pitch " + reader.getPitch());
+        System.out.println("Roll " + reader.getRoll());
+//        System.out.println(reader.comUrl);
+//        byte b = (byte) 128;
+
+//        System.out.println(b);
+
+
     }
 }
