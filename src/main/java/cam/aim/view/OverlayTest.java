@@ -40,9 +40,9 @@ public class OverlayTest extends JFrame  {
         this.lastAim = lastAim;
     }
 
-    //    private final String url = "rtsp://192.168.2.232//rtsp_tunnel";
+        private final String url = "rtsp://192.168.2.232//rtsp_tunnel";
 //private final String url = "rtsp://admin:12345@192.168.2.64//rtsp_tunnel ";
-    private final String url = "rtsp://admin:12345@192.168.2.64//ISAPI/Streaming/channels/3/rtsp_tunnel";
+//    private final String url = "rtsp://admin:12345@192.168.2.64//ISAPI/Streaming/channels/3/rtsp_tunnel";
 //    private final String url = "v4l2:///dev/video0";
     private final String streamOption=":network-caching=300";
 

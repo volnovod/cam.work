@@ -136,18 +136,14 @@ public class ComPortReader {
         }
         counter++;
         ph+=(char)buffer[counter];
-//        System.out.print((char)buffer[counter]);
         counter++;
-        ph+=buffer[counter];
+        ph+=(char)buffer[counter];
         this.setPitch(ph);
-//        System.out.println(buffer[counter]);
 
         counter+=2;
         rl+=(char) buffer[counter];
-//        System.out.print((char)buffer[counter]);
         counter++;
-        rl+= buffer[counter];
-//        System.out.println(buffer[counter]);
+        rl+= (char) buffer[counter];
 
         this.setRoll(rl);
 
@@ -155,19 +151,28 @@ public class ComPortReader {
     }
 
     public static void main(String[] args) {
-        int[] data = {49, 48, 50, 52, 46, 55, 57, 57, 57, 44, 102, 44, 48, 51, 48, 53, 56, 46, 51, 56, 53, 53, 44, 69, 44, 80, 45, 105, 82, 43, 255};
-        ComPortReader reader = new ComPortReader();
+//        int[] data = {49, 48, 50, 52, 46, 55, 57, 57, 57, 44, 102, 44, 48, 51, 48, 53, 56, 46, 51, 56, 53, 53, 44, 69, 44, 80, 45, 105, 82, 43, 255};
+//        ComPortReader reader = new ComPortReader();
 ////        byte[] data = reader.readData();
-        reader.getCoordinates(data);
-        System.out.println("Latitude " + reader.getLatitude());
-        System.out.println("Longtitude " + reader.getLongtitude());
-        System.out.println("Pitch " + reader.getPitch());
-        System.out.println("Roll " + reader.getRoll());
+//        reader.getCoordinates(data);
+//        System.out.println("Latitude " + reader.getLatitude());
+//        System.out.println("Longtitude " + reader.getLongtitude());
+//        System.out.println("Pitch " + reader.getPitch());
+//        System.out.println("Roll " + reader.getRoll());
 //        System.out.println(reader.comUrl);
 //        byte b = (byte) 128;
 
 //        System.out.println(b);
+//        System.out.println(reader.comUrl);
+//        ComPortReader reader = new ComPortReader();
+//        reader.readData();
 
+        String comUrl ="";
+        String[] portNames = SerialPortList.getPortNames();
+        for(int i = 0; i < portNames.length; i++){
+            comUrl=portNames[i];
+        }
 
+        System.out.println(comUrl);
     }
 }
