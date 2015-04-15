@@ -16,7 +16,7 @@ import java.awt.*;
 public class TestPlayer extends JFrame{
 
     private EmbeddedMediaPlayerComponent embeddedMediaPlayerComponent;
-    private final String url = "rtsp://192.168.2.232//rtsp_tunnel";
+    private final String url = "v4l2:///dev/video0";
     private final String streamOprion=":network-caching=500";
 
 

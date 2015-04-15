@@ -15,7 +15,7 @@ public class CanvasPlayer {
     private MediaPlayerFactory playerFactory;
     private EmbeddedMediaPlayer mediaPlayer;
 
-    private final String url = "rtsp://192.168.2.201//rtsp_tunnel";
+    private final String url = "v4l2:///dev/video0";
     private final String streamOprion=":network-caching=900";
 
     private JFrame frame;
