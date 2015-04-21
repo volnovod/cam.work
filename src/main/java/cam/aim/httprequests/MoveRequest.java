@@ -9,7 +9,7 @@ import java.net.URL;
  */
 public class MoveRequest {
 
-    private String url = "http://192.168.2.64/ISAPI/PTZCtrl/channels/1/absolute";
+    private String url = "http://192.168.1.64/ISAPI/PTZCtrl/channels/1/absolute";
     private final String USER_AGENT = "Chrome/40.0.2214.111";
     private boolean isMoveAround = false;
     private int elevation;

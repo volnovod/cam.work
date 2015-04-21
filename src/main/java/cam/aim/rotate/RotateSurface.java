@@ -50,6 +50,10 @@ public class RotateSurface {
         String elevation = new String();
         String azimuth = new String();
 
+        String x = new String();
+        String y = new String();
+        String z = new String();
+
         DecimalFormatSymbols s = new DecimalFormatSymbols();
         s.setDecimalSeparator('.');
         DecimalFormat f = new DecimalFormat("#,##0.00", s);
@@ -62,36 +66,44 @@ public class RotateSurface {
 
             System.out.println("ідеальний азимут " + i);
 
-//            System.out.println("ideal x:" + surface.getxCoordinate());
-//            System.out.println("ideal y:" + surface.getyCoordinate());
-//            System.out.println("ideal z:" + surface.getzCoordinate());
 
-            double[] newCoord = surface.rotateAroundOx(45);
+            double[] newCoord1 = surface.rotateAroundOx(5);
+            surface.setxCoordinate(newCoord1[0]);
+            surface.setyCoordinate(newCoord1[1]);
+            surface.setzCoordinate(newCoord1[2]);
+
+            double[] newCoord = surface.rotateAroundOy(7);
             double[] spherical = surface.fromDecToSpherical(newCoord);
 
 //            coord[i][0] = spherical[0];
 //            coord[i][1] = spherical[1];
-            elevation+= f.format(spherical[0]);
-            elevation +="\n";
-            azimuth +=f.format(spherical[1]);
-            azimuth +="\n";
+//            elevation+= f.format(spherical[0]);
+//            elevation +="\n";
+//            azimuth +=f.format(spherical[1]);
+//            azimuth +="\n";
+            x+= f.format(newCoord[0]);
+            x +="\n";
+            y +=f.format(newCoord[1]);
+            y +="\n";
+            z +=f.format(newCoord[2]);
+            z +="\n";
+
             System.out.println("Elevation - " + f.format(spherical[0]));
             System.out.println("Azimuth - " + spherical[1]);
-//            System.out.println("new x :" + newCoord[0]);
-//            System.out.println("new y :" + newCoord[1]);
-//            System.out.println("new z :" + newCoord[2]);
             System.out.println();
 
         }
 
-        File file1 = new File("Elevation.txt");
-        File file2 = new File("Azimuth.txt");
+        File file1 = new File("x.txt");
+        File file2 = new File("y.txt");
+        File file3 = new File("z.txt");
 
         try {
             //проверяем, что если файл не существует то создаем его
-            if(!file1.exists()  && !file2.exists()  ){
+            if(!file1.exists()  && !file2.exists() && !file3.exists() ){
                 file1.createNewFile();
                 file2.createNewFile();
+                file3.createNewFile();
             }
 
             //PrintWriter обеспечит возможности записи в файл
@@ -99,15 +111,19 @@ public class RotateSurface {
 
             PrintWriter out2 = new PrintWriter(file2.getAbsoluteFile());
 
+            PrintWriter out3 = new PrintWriter(file3.getAbsoluteFile());
             try {
                 //Записываем текст у файл
-                out1.print(elevation);
-                out2.print(azimuth);
+                out1.print(x);
+                out2.print(y);
+                out3.print(z);
+
             } finally {
                 //После чего мы должны закрыть файл
                 //Иначе файл не запишется
                 out1.close();
                 out2.close();
+                out3.close();
             }
         } catch(IOException e) {
             throw new RuntimeException(e);
@@ -138,9 +154,22 @@ public class RotateSurface {
      */
     public double[] fromDecToSpherical(double[] coordinates){
 
-        double elevation = Math.toDegrees(Math.acos(coordinates[2]));
-        double azimuth = Math.toDegrees(Math.acos(coordinates[0] / (Math.sqrt(1 - coordinates[2] * coordinates[2]))));
-        return new double[]{elevation, azimuth};
+        if((coordinates[0]>=0 && coordinates[1]>=0) || (coordinates[0]<=0 && coordinates[1]>=0)){
+            double elevation = Math.toDegrees(Math.acos(coordinates[2]));
+            double azimuth = Math.toDegrees(Math.acos(coordinates[0] / (Math.sqrt(1 - coordinates[2] * coordinates[2]))));
+            return new double[]{elevation, azimuth};
+        }
+
+        if((coordinates[0]<0 && coordinates[1]<=0) || ( coordinates[0]>0 && coordinates[1]<=0 )){
+            double elevation = Math.toDegrees(Math.acos(coordinates[2]));
+            double azimuth = 360 - Math.toDegrees(Math.acos(coordinates[0] / (Math.sqrt(1 - coordinates[2] * coordinates[2]))));
+            return new double[]{elevation, azimuth};
+        }
+//        if( coordinates[0]>=0 && coordinates[1]<=0){
+//
+//        }
+        return null;
+
 
     }
 
