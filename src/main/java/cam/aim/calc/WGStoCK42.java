@@ -6,5 +6,5 @@ package cam.aim.calc;
 public interface WGStoCK42 {
 
     double[] transformtoPz90();
-    double[] transformtoCk42();
+    void transformtoCk42();
 }

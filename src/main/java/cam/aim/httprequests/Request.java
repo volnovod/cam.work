@@ -16,7 +16,7 @@ import org.w3c.dom.*;
  */
 public class Request {
 
-    private String url="http://192.168.2.64/ISAPI/PTZCtrl/channels/1/status";
+    private String url="http://192.168.1.64/ISAPI/PTZCtrl/channels/1/status";
     private final String USER_AGENT = "Chrome/40.0.2214.111";
     private String azimuth;
     private String elevation;

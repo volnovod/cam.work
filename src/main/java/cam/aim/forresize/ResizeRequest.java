@@ -10,7 +10,7 @@ import java.net.URL;
  */
 public class ResizeRequest {
 
-    private String url = "http://192.168.2.64/ISAPI/Streaming/channels/3";
+    private String url = "http://192.168.1.64/ISAPI/Streaming/channels/3";
     private final String USER_AGENT = "Chrome/40.0.2214.111";
 
 

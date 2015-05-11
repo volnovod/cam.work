@@ -1,7 +1,6 @@
 package cam.aim.domain;
 
 import javax.persistence.*;
-import java.util.Comparator;
 
 /**
  * Created by victor on 17.02.15.
@@ -18,15 +17,45 @@ public class Aim {
     @Column(name = "LATITUDE", nullable = false)
     private double latitude;
 
-    @Column(name = "LONGTITUDE", nullable = false)
-    private double longtitude;
+    @Column(name = "LONGITUDE", nullable = false)
+    private double longitude;
 
-    @Column(name = "OTHERINFO", nullable = true)
-    private String info;
+    @Column(name = "PATH", nullable = true)
+    private String path;
+
+    @Column ( name = "LATITUDECK42", nullable = false)
+    private double latitudeck42;
+
+    @Column ( name = "LONGITUDECK42", nullable = false)
+    private double longitudeck42;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public double getLatitudeck42() {
+        return latitudeck42;
+    }
+
+    public void setLatitudeck42(double latitudeck42) {
+        this.latitudeck42 = latitudeck42;
+    }
+
+    public double getLongitudeck42() {
+        return longitudeck42;
+    }
+
+    public void setLongitudeck42(double longitudeck42) {
+        this.longitudeck42 = longitudeck42;
+    }
 
     @Override
     public String toString() {
-        return " Широта-" + latitude + "\n" + "Довгота-" + longtitude;
+        return " Широта-" + latitude + "\n" + "Довгота-" + longitude;
     }
 
     public Integer getId() {
@@ -45,21 +74,15 @@ public class Aim {
         this.latitude = latitude;
     }
 
-    public double getLongtitude() {
-        return longtitude;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public String getInfo() {
-        return info;
-    }
 
-    public void setInfo(String info) {
-        this.info = info;
-    }
 
 
 }

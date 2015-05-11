@@ -3,7 +3,7 @@ package cam.aim.calc;
 /**
  * Created by victor on 03.03.15.
  */
-public class ProjectionToPlaneImpl implements ProjectionToPlane {
+public class  ProjectionToPlaneImpl implements ProjectionToPlane {
 
     private final long a=6378137;//metrs
     private final double f = 1/298.257223;

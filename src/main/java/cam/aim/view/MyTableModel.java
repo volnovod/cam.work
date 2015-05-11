@@ -4,7 +4,6 @@ import cam.aim.domain.Aim;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 import java.util.*;
 
 /**
@@ -47,36 +46,53 @@ public class MyTableModel extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 6;
     }
 
     @Override
     public String getColumnName(int columnIndex) {
-        switch (columnIndex){
-            case 0:
-                return "№";
-            case 1:
-                return "Широта";
-            case 2:
-                return "Довгота";
-            case 3:
-                return "Інфо";
+        if(columnIndex == 0){
+            return "№";
+        }
+        if (columnIndex == 1 ){
+            return "Ш";
+        }
+        if (columnIndex == 2){
+            return "Д";
+        }
+        if( columnIndex == 3){
+            return "Ш-42";
+        }
+        if (columnIndex == 4){
+            return "Д-42";
+        }
+        if( columnIndex == 5){
+            return "Path";
         }
         return "";
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        switch (columnIndex){
-            case 0:
-                return Integer.class;
-            case 1:
-                return Double.class;
-            case 2:
-                return Double.class;
-            case 3:
-                return String.class;
+        if(columnIndex == 0){
+            return Integer.class;
         }
+        if (columnIndex == 1 ){
+            return Double.class;
+        }
+        if (columnIndex == 2){
+            return Double.class;
+        }
+        if( columnIndex == 3){
+            return Double.class;
+        }
+        if (columnIndex == 4){
+            return Double.class;
+        }
+        if( columnIndex == 5){
+            return String.class;
+        }
+
         return Object.class;
     }
 
@@ -88,15 +104,23 @@ public class MyTableModel extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Aim aim = beans.get(rowIndex);
-        switch (columnIndex){
-            case 0:
-                return aim.getId();
-            case 1:
-                return aim.getLatitude();
-            case 2:
-                return aim.getLongtitude();
-            case 3:
-                return aim.getInfo();
+        if(columnIndex == 0){
+            return aim.getId();
+        }
+        if (columnIndex == 1 ){
+            return aim.getLatitude();
+        }
+        if (columnIndex == 2){
+            return aim.getLongitude();
+        }
+        if( columnIndex == 3){
+            return aim.getLatitudeck42();
+        }
+        if (columnIndex == 4){
+            return aim.getLongitudeck42();
+        }
+        if( columnIndex == 5){
+            return aim.getPath();
         }
         return null;
     }

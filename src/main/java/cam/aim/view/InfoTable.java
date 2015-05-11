@@ -33,8 +33,8 @@ public class InfoTable extends JPanel {
             System.out.println(list.size());
             data[i][0]=aim.getId().toString();
             data[i][1]=aim.getLatitude();
-            data[i][2]=aim.getLongtitude();
-            data[i][3]=aim.getInfo();
+            data[i][2]=aim.getLongitude();
+//            data[i][3]=aim.getInfo();
 
         }
 

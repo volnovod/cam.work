@@ -6,14 +6,14 @@ package cam.aim.calibration;
 public class Calibration {
 
     private double deltaA;// up/down deviation
-    private double deltaNorth;// deviation to north
+    private double deltaB;// deviation to left/right
 
-    public double getDeltaNorth() {
-        return deltaNorth;
+    public double getDeltaB() {
+        return deltaB;
     }
 
-    public void setDeltaNorth(double deltaNorth) {
-        this.deltaNorth = deltaNorth;
+    public void setDeltaB(double deltaB) {
+        this.deltaB = deltaB;
     }
 
     public double getDeltaA() {

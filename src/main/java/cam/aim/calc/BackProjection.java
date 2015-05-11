@@ -32,30 +32,40 @@ public class BackProjection {
     }
 
     public Coordinate transform() {
-        double longtitude;
+        double longitude;
         double latitude;
         double height;
-        double[] param = this.ck42.transformtoCk42();
-        double x = param[0];
-        double y = param[1];
-        double z = param[2];
+        Coordinate res = new Coordinate();
+
+        double x = this.ck42.getLatitude42();
+        double y = this.ck42.getLongitude42();
+        double z = this.ck42.getHeight42();
 
         double D = Math.sqrt(x * x + y * y);
         if (D == 0) {
             latitude = Math.toDegrees((Math.PI / 2) * z / (Math.abs(z)));
         } else {
+
+            double la = Math.abs(Math.asin(y/D));
+
             if (y < 0 && x > 0) {
-                longtitude = Math.toDegrees(2 * Math.PI - Math.abs(Math.asin(y / D)));
+                longitude = Math.toDegrees(2 * Math.PI - la);
+                res.setLongtitudeGrad(longitude);
             } else if (y < 0 && x < 0) {
-                longtitude = Math.toDegrees(Math.PI + Math.abs(Math.asin(y / D)));
+                longitude = Math.toDegrees(Math.PI + la);
+                res.setLongtitudeGrad(longitude);
             } else if (y > 0 && x < 0) {
-                longtitude = Math.toDegrees(Math.PI - Math.abs(Math.asin(y / D)));
-            } else if (y < 0 && x > 0) {
-                longtitude = Math.toDegrees(Math.abs(Math.asin(y / D)));
+                longitude = Math.toDegrees(Math.PI - la);
+                res.setLongtitudeGrad(longitude);
+            } else if (y > 0 && x > 0) {
+                longitude = Math.toDegrees(la);
+                res.setLongtitudeGrad(longitude);
             } else if (y == 0 && x > 0) {
-                longtitude = 0;
+                longitude = 0;
+                res.setLongtitudeGrad(longitude);
             } else if (y == 0 && x < 0) {
-                longtitude = Math.toDegrees(Math.PI);
+                longitude = Math.toDegrees(Math.PI);
+                res.setLongtitudeGrad(longitude);
             }
         }
 
@@ -67,21 +77,27 @@ public class BackProjection {
             double c = Math.asin(z / r);
             double p = eKr * eKr * aKr / (2 * r);
 
-            double s1 = 0;
+            double s1;
             double s2 = 0;
             double b;
             double d;
             do {
                 s1 = s2;
-                s2=Math.asin((p * Math.sin(2 * bKr))/(Math.sqrt(1 - eKr*eKr*Math.sin(bKr)*Math.sin(bKr))));
                 b = c + s1;
+                s2=Math.asin((p * Math.sin(2 * b))/(Math.sqrt(1 - eKr*eKr*Math.sin(b)*Math.sin(b))));
                 d = Math.abs(s2-s1);
 
             }while (d > error);
                 latitude = b;
                 height = D*Math.cos(latitude) + z*Math.sin(latitude) - aKr * (Math.sqrt(1 - eKr*eKr*Math.sin(bKr)*Math.sin(bKr)));
             }
-        return null;
+
+            if(latitude < 0){
+                latitude += 2 * Math.PI;
+            }
+
+            res.setLatitudeGrad(Math.toDegrees(latitude));
+        return res;
         }
     }
 

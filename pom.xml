@@ -37,6 +37,14 @@
     <dependencies>
 
 
+            <dependency>
+                <groupId>org.usb4java</groupId>
+                <artifactId>usb4java-javax</artifactId>
+                <version>1.2.0</version>
+            </dependency>
+
+
+
         <!--<dependency>-->
             <!--<groupId>javax.comm</groupId>-->
             <!--<artifactId>comm</artifactId>-->
@@ -108,7 +116,7 @@
         6) Run maven build
 -->
         <!-- ORACLE JDBC driver -->
-        <dependency>
+       <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>10.2.0.5.0</version>

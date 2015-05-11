@@ -11,13 +11,24 @@ public class AimCalculatorImpl implements AimCalculator {
 
     private Coordinate coordinate;
     private Aim aim;
+    private WGStoCK42Impl wgStoCK42;
     private final long a=6378137;//meters
     private final double f = 1/298.257223;
     private final long b = (long) (a*(1-f));
+    private double height;
 
     public AimCalculatorImpl() {
         this.coordinate = new Coordinate();
         this.aim = new Aim();
+        this.wgStoCK42 = new WGStoCK42Impl();
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public Aim getAim() {
@@ -59,8 +70,20 @@ public class AimCalculatorImpl implements AimCalculator {
         double M = NM[1];
         this.coordinate.setLatitudeGrad(calcB(B, A, S, M));
         this.coordinate.setLongtitudeGrad(calcL(B, A, L, S, N));
+
+        this.wgStoCK42.setLatitude(B);
+        this.wgStoCK42.setLongtitude(L);
+        this.wgStoCK42.setHeight(getHeight());
+
+        wgStoCK42.transformtoCk42();
+        BackProjection backProjection  = new BackProjection();
+        backProjection.setCk42(wgStoCK42);
+        Coordinate ck42= backProjection.transform();
+
         this.aim.setLatitude(this.coordinate.getLatitudeGrad());
-        this.aim.setLongtitude(this.coordinate.getLongtitudeGrad());
+        this.aim.setLongitude(this.coordinate.getLongtitudeGrad());
+        this.aim.setLatitudeck42(ck42.getLatitudeGrad());
+        this.aim.setLongitudeck42(ck42.getLongtitudeGrad());
     }
 
     /* result in degrees*/

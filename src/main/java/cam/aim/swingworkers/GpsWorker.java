@@ -28,7 +28,7 @@ public class GpsWorker /*extends SwingWorker<String[], Byte>*/ {
 //        }
 //        String[] result = new String[2];
 //        result[0] = reader.getLatitude();
-//        result[1] = reader.getLongtitude();
+//        result[1] = reader.getLongitude();
 //        return result;
 //    }
 }

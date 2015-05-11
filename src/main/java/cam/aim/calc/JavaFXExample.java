@@ -22,7 +22,7 @@ public class JavaFXExample extends Application {
     }
 
     public void setI() {
-        this.i = i +10 ;
+        this.i = i + 2 ;
         if(i>360){
             i=0;
         }
@@ -52,14 +52,18 @@ public class JavaFXExample extends Application {
             @Override
             public void handle(ActionEvent event) {
 
-                double [] curCoord = surface.calculateIdealCoordinates(90, getI());
+                double[] curCoord = surface.calculateIdealCoordinates(90, getI());
                 surface.setxCoordinate(curCoord[0]);
                 surface.setyCoordinate(curCoord[1]);
                 surface.setzCoordinate(curCoord[2]);
 
                 double[] coord = surface.rotateAroundOx(surface.getTiltX());
-                double[] angles  =surface.fromDecToSpherical(coord);
-                moveRequest.setRequest(90-(int)angles[0], (int)angles[1]);
+                double[] angles = surface.fromDecToSpherical(coord);
+                int azimuth = (int) angles[1];
+                if (azimuth == 360) {
+                    azimuth = 0;
+                }
+                moveRequest.setRequest((90 - (int) angles[0])*10, azimuth * 10);
                 moveRequest.start();
                 setI();
             }
