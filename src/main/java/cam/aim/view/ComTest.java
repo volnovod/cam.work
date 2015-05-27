@@ -4,6 +4,10 @@ import jssc.*;
 
 import java.util.Arrays;
 
+/**
+ * клас для підключенння СОМ-порту та читання/записування даних
+ */
+
 public class ComTest {
 
 //  public static void main(String[] args) {

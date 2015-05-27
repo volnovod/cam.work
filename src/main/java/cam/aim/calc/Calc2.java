@@ -33,11 +33,11 @@ public class Calc2 {
         return res;
     }
 
-    public static void main(String[] args) {
-        Calc2 calc = new Calc2();
-        calc.calcCoordinate(50.155446, 31.904916, 0, 435);
-        System.out.println(calc.getCoordinate().toString());
-    }
+//    public static void main(String[] args) {
+//        Calc2 calc = new Calc2();
+//        calc.calcCoordinate(50.155446, 31.904916, 0, 435);
+//        System.out.println(calc.getCoordinate().toString());
+//    }
 
 
 
@@ -48,7 +48,7 @@ public class Calc2 {
         double N = NM[0];
         double M = NM[1];
         this.coordinate.setLatitudeGrad(calcB(B, A, S, M));
-        this.coordinate.setLongtitudeGrad(calcL(B, A, L, S, N));
+        this.coordinate.setLongitudeGrad(calcL(B, A, L, S, N));
     }
 
     /* result in degrees*/

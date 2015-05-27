@@ -5,6 +5,7 @@ import java.net.URL;
 
 /**
  * Created by victor on 27.03.15.
+ * клас, який повертає камеру HIKVISION в "домашнє" положення
  */
 public class HomePositionRequest {
 
@@ -16,13 +17,14 @@ public class HomePositionRequest {
     public HomePositionRequest() {
     }
 
-
+    /**
+     * відправка PUT-запиту для переходу в "домашнє" положення
+     */
     public void start() {
         try {
             URL urladr = new URL(this.url);
 
             HttpURLConnection urlConnection = (HttpURLConnection) urladr.openConnection();
-
 
             urlConnection.setRequestMethod("PUT");
             String userpass = "admin" + ":" + "12345";
@@ -35,26 +37,8 @@ public class HomePositionRequest {
             System.out.println("\nSending 'PUT' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
 
-
-
-
-
         } catch (Exception e){
             e.printStackTrace();
         }
-
-
-    }
-
-
-
-
-
-
-    public static void main(String[] args) {
-        HomePositionRequest request = new HomePositionRequest();
-        request.start();
-
-
     }
 }

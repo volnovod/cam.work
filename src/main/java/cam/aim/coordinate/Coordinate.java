@@ -2,19 +2,20 @@ package cam.aim.coordinate;
 
 /**
  * Created by victor on 20.02.15.
+ * клас, який описує координати точки
  */
 public class Coordinate {
 
     private double latitude;
-    private double longtitude;
+    private double longitude;
     private double latitudeGrad;
-    private double longtitudeGrad;
+    private double longitudeGrad;
 
-    public Coordinate(double latitude, double longtitude) {
+    public Coordinate(double latitude, double longitude) {
         this.latitude = Math.toRadians(latitude);
-        this.longtitude = Math.toRadians(longtitude);
+        this.longitude = Math.toRadians(longitude);
         this.latitudeGrad = latitude;
-        this.longtitudeGrad = longtitude;
+        this.longitudeGrad = longitude;
     }
 
     public Coordinate() {
@@ -28,12 +29,12 @@ public class Coordinate {
         this.latitude = latitude;
     }
 
-    public double getLongtitudeRad() {
-        return longtitude;
+    public double getLongitudeRad() {
+        return longitude;
     }
 
-    public void setLongtitudeRad(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitudeRad(double longitude) {
+        this.longitude = longitude;
     }
 
     public double getLatitudeGrad() {
@@ -44,19 +45,19 @@ public class Coordinate {
         this.latitudeGrad = latitudeGrad;
     }
 
-    public double getLongtitudeGrad() {
-        return longtitudeGrad;
+    public double getLongitudeGrad() {
+        return longitudeGrad;
     }
 
-    public void setLongtitudeGrad(double longtitudeGrad) {
-        this.longtitudeGrad = longtitudeGrad;
+    public void setLongitudeGrad(double longitudeGrad) {
+        this.longitudeGrad = longitudeGrad;
     }
 
     @Override
     public String toString() {
         return "Coordinate{" +
                 "latitudeGrad=" + latitudeGrad +
-                ", longtitudeGrad=" + longtitudeGrad +
+                ", longitudeGrad=" + longitudeGrad +
                 '}';
     }
 }

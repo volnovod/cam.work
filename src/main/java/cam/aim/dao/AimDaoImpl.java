@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by victor on 17.02.15.
+ * клас, який реалізує DAO
  */
 @Repository("aimDao")
 @Transactional
@@ -22,29 +23,53 @@ public class AimDaoImpl implements AimDao {
 
     }
 
+    /**
+     * метод створює ціль в базі даних
+     * @param aim
+     * @return порядковий номер цілі в базі даних
+     */
     @Override
     public Integer create(Aim aim) {
         return (Integer) factory.getCurrentSession().save(aim);
     }
 
+    /**
+     * метод дозволяє отримати ціль із бази даних по порядковому номеру
+     * @param id
+     * @return ціль по id
+     */
     @Transactional(readOnly = true)
     @Override
     public Aim read(Integer id) {
         return (Aim) factory.getCurrentSession().get(Aim.class, id);
     }
 
+    /**
+     * метод оновлює параметри цілі
+     * @param aim
+     * @return true - все вдало оновлено, false - помилка
+     */
     @Override
     public boolean update(Aim aim) {
         factory.getCurrentSession().update("AIM", aim);
         return true;
     }
 
+    /**
+     * метод видаляє ціль
+     * @param aim
+     * @return true - видалено вдало, false - помилка
+     */
     @Override
     public boolean delete(Aim aim) {
         factory.getCurrentSession().delete("AIM", aim);
         return false;
     }
 
+    /**
+     * метод дозволяє отримати список всіх цілей із бази даних
+     * @return список цілей
+     */
     @Transactional(readOnly = true)
     @Override
         public List<Aim> findAll() {

@@ -6,6 +6,7 @@ import java.net.URL;
 
 /**
  * Created by victor on 26.03.15.
+ * клас, який повертає камеру HIKVISION в потрібному положенні
  */
 public class MoveRequest {
 
@@ -41,10 +42,15 @@ public class MoveRequest {
         this.isMoveAround = isMoveAround;
     }
 
-    public void setRequest(int elevation, double azimuth) {
+    /**
+     * створення запиту на поворот
+     * @param elevation - кут місця камери після повороту
+     * @param azimuth - азимут камери після повороту
+     */
+    public void setRequest(double elevation, double azimuth) {
         this.request =  "<PTZData version=\"2.0\" xmlns=\"http://www.isapi.org/ver20/XMLSchema\">\n" +
                 "<AbsoluteHigh>\n" +
-                "<elevation>" + elevation + "</elevation>\n" +
+                "<elevation>" + (int)elevation + "</elevation>\n" +
                 "<azimuth>" + (int)azimuth + "</azimuth>\n" +
                 "<absoluteZoom> 10 </absoluteZoom>\n" +
                 "</AbsoluteHigh>\n" +
@@ -64,6 +70,9 @@ public class MoveRequest {
         this.setRequest(elevation, (int)azimuth);
     }
 
+    /**
+     * відправлення PUT-запиту для повороту камери
+     */
     public void start() {
         try {
             URL urladr = new URL(this.url);
@@ -89,24 +98,9 @@ public class MoveRequest {
             System.out.println("Response Code : " + responseCode);
 
 
-
-
-
         } catch (Exception e){
             e.printStackTrace();
         }
-
-
-    }
-
-
-
-
-
-
-    public static void main(String[] args) {
-        MoveRequest moveRequest = new MoveRequest(0, 0);
-        moveRequest.start();
 
 
     }

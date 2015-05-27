@@ -13,6 +13,7 @@ import org.w3c.dom.*;
 
 /**
  * Created by victor on 06.03.15.
+ * клас, який отримує кути повороту від камери HIKVISION за допомогою GEt-запиту
  */
 public class Request {
 
@@ -44,6 +45,9 @@ public class Request {
         this.url = url;
     }
 
+    /**
+     * метод отримує xml-документ із кутами повороту від камери
+     */
     public void start() {
         try {
             URL urladr = new URL(this.url);
@@ -86,6 +90,12 @@ public class Request {
 
     }
 
+    /**
+     * генерування xml-документу із вхідного потоку
+     * @param stream
+     * @return
+     * @throws Exception
+     */
     public Document parseXML(InputStream stream)
             throws Exception
     {
@@ -107,16 +117,4 @@ public class Request {
         return doc;
     }
 
-
-
-
-    public static void main(String[] args) {
-       Request request = new Request();
-
-            request.start();
-            System.out.println("elev "+request.elevation+" azim " + request.azimuth);
-
-
-
-    }
 }

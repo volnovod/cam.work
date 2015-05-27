@@ -7,6 +7,7 @@ import java.net.URL;
 
 /**
  * Created by victor on 23.03.15.
+ * клас, який керує потоком відео за допомогою http-запиту
  */
 public class ResizeRequest {
 
@@ -14,7 +15,11 @@ public class ResizeRequest {
     private final String USER_AGENT = "Chrome/40.0.2214.111";
 
 
-
+    /**
+     * метод створює запит до камери HIKVISION
+     * @param width
+     * @param height
+     */
     public void setRequest(int width, int height) {
         this.request = "<StreamingChannel version=\"2.0\"xmlns=\"http://www.isapi.org/ver20/XMLSchema\">\n" +
                 "<id>1</id>\n" +
@@ -88,12 +93,14 @@ public class ResizeRequest {
         this.setRequest(width, height);
     }
 
+    /**
+     * створення і передавання PUT-запиту
+     */
     public void start() {
         try {
             URL urladr = new URL(this.url);
 
             HttpURLConnection urlConnection = (HttpURLConnection) urladr.openConnection();
-
 
             urlConnection.setRequestMethod("PUT");
             String userpass = "admin" + ":" + "12345";
@@ -112,11 +119,6 @@ public class ResizeRequest {
             System.out.println("\nSending 'PUT' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
 
-
-            double elev;
-            double azim;
-
-
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -124,17 +126,4 @@ public class ResizeRequest {
 
     }
 
-
-
-
-
-
-    public static void main(String[] args) {
-        ResizeRequest request = new ResizeRequest();
-
-        request.start();
-
-
-
-    }
 }

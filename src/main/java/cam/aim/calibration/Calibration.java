@@ -2,6 +2,7 @@ package cam.aim.calibration;
 
 /**
  * Created by victor on 30.03.15.
+ * клас, який зберігає кути нахилу платформи для калібровки
  */
 public class Calibration {
 

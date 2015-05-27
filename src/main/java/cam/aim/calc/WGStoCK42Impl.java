@@ -1,17 +1,18 @@
 package cam.aim.calc;
 
-import cam.aim.coordinate.Coordinate;
-
 /**
  * Created by victor on 03.03.15.
+ * клас, який перетворє координати із системи WGS84 в СК-42
  */
 public class WGStoCK42Impl implements WGStoCK42 {
 
     private ProjectionToPlane projectionToPlane;
-    private double longtitude;
+    //координати в системі WGS84
+    private double longitude;
     private double latitude;
     private double height;
 
+    //координати в системі СК-42
     private double longitude42;
     private double latitude42;
     private double height42;
@@ -20,17 +21,21 @@ public class WGStoCK42Impl implements WGStoCK42 {
         this.projectionToPlane = new ProjectionToPlaneImpl();
     }
 
-    public WGStoCK42Impl(double latitude, double longtitude, double height) {
-        this.longtitude = longtitude;
+    public WGStoCK42Impl(double latitude, double longitude, double height) {
+        this.longitude = longitude;
         this.latitude = latitude;
         this.height = height;
         this.projectionToPlane = new ProjectionToPlaneImpl();
     }
 
+    /**
+     * метод перетворює координати XYZ із WGS в ПЗ90
+     * @return X,Y,Z в системі ПЗ90
+     */
     @Override
     public double[] transformtoPz90() {
         double[] res = new double[3];
-        double[] xyz = this.projectionToPlane.projection(this.getLatitude(), this.getLongtitude(), this.getHeight());
+        double[] xyz = this.projectionToPlane.projection(this.getLatitude(), this.getLongitude(), this.getHeight());
 
 
 
@@ -45,6 +50,9 @@ public class WGStoCK42Impl implements WGStoCK42 {
         return res;
     }
 
+    /**
+     * метод перераховує координати із ПЗ90 в СК-42
+     */
     @Override
     public void transformtoCk42() {
 
@@ -63,23 +71,23 @@ public class WGStoCK42Impl implements WGStoCK42 {
         this.setHeight42(he);
     }
 
-    public static void main(String[] args) {
-        WGStoCK42Impl wgStoCK42 = new WGStoCK42Impl(51.145, 132.2356, 125.36);
-        wgStoCK42.transformtoCk42();
-        BackProjection backProjection  = new BackProjection();
-        backProjection.setCk42(wgStoCK42);
-        Coordinate res = backProjection.transform();
+//    public static void main(String[] args) {
+//        WGStoCK42Impl wgStoCK42 = new WGStoCK42Impl(51.145, 132.2356, 125.36);
+//        wgStoCK42.transformtoCk42();
+//        BackProjectionImpl backProjection  = new BackProjectionImpl();
+//        backProjection.setCk42(wgStoCK42);
+//        Coordinate res = backProjection.transform();
+//
+//        System.out.println(res.toString());
+//
+//    }
 
-        System.out.println(res.toString());
-
+    public double getLongitude() {
+        return longitude;
     }
 
-    public double getLongtitude() {
-        return longtitude;
-    }
-
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public double getLatitude() {

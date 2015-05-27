@@ -9,6 +9,8 @@ import org.usb4java.LibUsbException;
 
 /**
  * Created by victor on 15.04.15.
+ * клас для доступу до USB-пристроїв
+ *
  */
 public class ListDevices {
     public static void main(String[] args)

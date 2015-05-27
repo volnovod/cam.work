@@ -1,14 +1,14 @@
 package cam.aim.view;
 
+import cam.aim.calc.AimCalculatorImpl;
 import cam.aim.calc.WGStoCK42;
 import cam.aim.calc.WGStoCK42Impl;
 import cam.aim.calibration.Calibration;
+import cam.aim.comport.ComPortReaderImpl;
+import cam.aim.domain.Aim;
 import cam.aim.httprequests.HomePositionRequest;
 import cam.aim.httprequests.MoveRequest;
 import cam.aim.httprequests.Request;
-import cam.aim.calc.AimCalculatorImpl;
-import cam.aim.comport.ComPortReaderImpl;
-import cam.aim.domain.Aim;
 import cam.aim.service.AimService;
 import cam.aim.service.AimServiceImpl;
 import com.sun.jna.NativeLibrary;
@@ -19,6 +19,7 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -26,34 +27,10 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by victor on 12.02.15.
+ * Created by victor on 25.05.15.
  */
-public class OverlayTest extends JFrame {
+public class TabbedPlayer extends JFrame {
 
-    /**
-     * метод аналізує центральну частину екрану на яскравість
-     * і змінює в залежності від яскравості колір маркеру цілі
-     * @param mediaPlayer
-     * @param dimension
-     */
-    public void controlBackgroundFon(EmbeddedMediaPlayer mediaPlayer, Dimension dimension){
-
-        BufferedImage image = mediaPlayer.getSnapshot();
-        int w = (int)dimension.getWidth()/6;
-        int h = (int)dimension.getHeight()/6;
-
-        int[] dataBuff = image.getRGB((int)(dimension.getWidth()/2-100), (int)(dimension.getHeight()/2-100), w, h, null, 0, w);
-        Color color = new Color(dataBuff[100]);
-        int red = color.getRed();
-        int green = color.getGreen();
-        int blue = color.getBlue();
-        String hexRed = Integer.toHexString(red);
-        String hexGreen = Integer.toHexString(green);
-        String hexBlue = Integer.toHexString(blue);
-        String hexColor = hexRed + hexGreen + hexBlue;
-        int color1 = Integer.parseInt(hexColor,16);
-        overlay.setColorValue(color1);
-    }
 
     private EmbeddedMediaPlayer mediaPlayer;
     private MediaPlayerFactory playerFactory;
@@ -121,10 +98,10 @@ public class OverlayTest extends JFrame {
 
     Rectangle rectangle;
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(OverlayTest::new);
+        SwingUtilities.invokeLater(TabbedPlayer::new);
     }
 
-    public OverlayTest() {
+    public TabbedPlayer() {
 
 
 
@@ -559,7 +536,7 @@ public class OverlayTest extends JFrame {
 
 //        JButton button = new JButton("Створити ціль");
 //        frame.pack();
-        frame.add(panel, BorderLayout.WEST);
+//        frame.add(panel, BorderLayout.WEST);
         Timer timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -567,17 +544,35 @@ public class OverlayTest extends JFrame {
             }
         });
 
-        frame.addMouseMotionListener(new MouseMotionListener() {
+        JButton showPanel = new BasicArrowButton(1);
+        showPanel.addMouseListener(new MouseListener() {
             @Override
-            public void mouseDragged(java.awt.event.MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {
+                frame.add(panel, BorderLayout.WEST);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
 
             }
 
             @Override
-            public void mouseMoved(java.awt.event.MouseEvent e) {
-                System.out.println(e.getX() + " " + e.getY());
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
             }
         });
+
+        frame.add(showPanel, BorderLayout.WEST);
 
         timer.start();
 
@@ -585,5 +580,25 @@ public class OverlayTest extends JFrame {
 
 
     }
+
+    public void controlBackgroundFon(EmbeddedMediaPlayer mediaPlayer, Dimension dimension){
+
+        BufferedImage image = mediaPlayer.getSnapshot();
+        int w = (int)dimension.getWidth()/6;
+        int h = (int)dimension.getHeight()/6;
+
+        int[] dataBuff = image.getRGB((int)(dimension.getWidth()/2-100), (int)(dimension.getHeight()/2-100), w, h, null, 0, w);
+        Color color = new Color(dataBuff[100]);
+        int red = color.getRed();
+        int green = color.getGreen();
+        int blue = color.getBlue();
+        String hexRed = Integer.toHexString(red);
+        String hexGreen = Integer.toHexString(green);
+        String hexBlue = Integer.toHexString(blue);
+        String hexColor = hexRed + hexGreen + hexBlue;
+        int color1 = Integer.parseInt(hexColor,16);
+        overlay.setColorValue(color1);
+    }
+
 
 }

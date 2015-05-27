@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 /**
  * Created by victor on 17.02.15.
+ * об’єкт, який являє собою ціль із параметрами - координати в системі WGS84,CK42
+ * шлях до фото цілі, порядковий номер, дальність
  */
 @Entity
 @Table(name="AIM")
@@ -28,6 +30,8 @@ public class Aim {
 
     @Column ( name = "LONGITUDECK42", nullable = false)
     private double longitudeck42;
+
+//    @Column( name  =)
 
     public String getPath() {
         return path;
@@ -55,7 +59,7 @@ public class Aim {
 
     @Override
     public String toString() {
-        return " Широта-" + latitude + "\n" + "Довгота-" + longitude;
+        return " Широта-" + latitudeck42 + "\n" + "Довгота-" + longitudeck42;
     }
 
     public Integer getId() {

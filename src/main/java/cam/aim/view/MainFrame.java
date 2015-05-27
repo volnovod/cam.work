@@ -26,6 +26,8 @@ public class MainFrame {
     public MainFrame() {
 
         JFrame frame = new JFrame();
+
+//        ControlPanel panel = new ControlPanel();
 //
 //        executorService.scheduleAtFixedRate(() -> capture(frame), 0, 1, TimeUnit.MICROSECONDS);
 //        executorService.scheduleAtFixedRate(() -> capture(frame), 1, 2, TimeUnit.MICROSECONDS);
@@ -34,11 +36,16 @@ public class MainFrame {
 //        executorService.scheduleAtFixedRate(() -> capture(frame), 4, 1, TimeUnit.MICROSECONDS);
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        frame.setSize(150,150);
+//        frame.add(panel);
         frame.setVisible(true);
 
 
 
+    }
+
+    public static void main(String[] args) {
+        MainFrame mainFrame = new MainFrame();
     }
 
     private void capture(JFrame frame) {

@@ -6,6 +6,8 @@ import java.lang.Math;
 
 /**
  * Created by victor on 20.02.15.
+ * клас, який рахує координати цілі по відомим координатам спостеріганням,
+ * дальності, азимуті цілі
  */
 public class AimCalculatorImpl implements AimCalculator {
 
@@ -54,51 +56,83 @@ public class AimCalculatorImpl implements AimCalculator {
         return res;
     }
 
-    public static void main(String[] args) {
-        AimCalculatorImpl calc = new AimCalculatorImpl();
-        calc.calcCoordinate(48.489024, 30.804334, 0, 1700);
-        System.out.println(calc.getAim().toString());
-    }
-
-
-
+//    public static void main(String[] args) {
+//        AimCalculatorImpl calc = new AimCalculatorImpl();
+//        calc.calcCoordinate(48.489024, 30.804334, 0, 1700);
+//        System.out.println(calc.getAim().toString());
+//    }
 
     //    B,L,A must be grad
+
+    /**
+     * метод розрахунку координат цілі
+     * @param B - широта спостерігання в градусах
+     * @param L - довгота спостерігання в градусах
+     * @param A - азимут цілі в градусах
+     * @param S - дальність цілі
+     */
+    @Override
     public void calcCoordinate(double B, double L, double A, double S){
         double[] NM = calcNM(B);
         double N = NM[0];
         double M = NM[1];
         this.coordinate.setLatitudeGrad(calcB(B, A, S, M));
-        this.coordinate.setLongtitudeGrad(calcL(B, A, L, S, N));
+        this.coordinate.setLongitudeGrad(calcL(B, A, L, S, N));
 
         this.wgStoCK42.setLatitude(B);
-        this.wgStoCK42.setLongtitude(L);
+        this.wgStoCK42.setLongitude(L);
         this.wgStoCK42.setHeight(getHeight());
 
         wgStoCK42.transformtoCk42();
-        BackProjection backProjection  = new BackProjection();
-        backProjection.setCk42(wgStoCK42);
-        Coordinate ck42= backProjection.transform();
+        BackProjectionImpl backProjectionImpl = new BackProjectionImpl();
+        backProjectionImpl.setCk42(wgStoCK42);
+        Coordinate ck42= backProjectionImpl.transform();
 
         this.aim.setLatitude(this.coordinate.getLatitudeGrad());
-        this.aim.setLongitude(this.coordinate.getLongtitudeGrad());
+        this.aim.setLongitude(this.coordinate.getLongitudeGrad());
         this.aim.setLatitudeck42(ck42.getLatitudeGrad());
-        this.aim.setLongitudeck42(ck42.getLongtitudeGrad());
+        this.aim.setLongitudeck42(ck42.getLongitudeGrad());
     }
 
-    /* result in degrees*/
+    /**
+     *метод розраховує широту цілі
+     * @param B - широта спостерігання в градусах
+     * @param A - азимут цілі в градусах
+     * @param S - дальність цілі
+     * @return широта цілі в градусах
+     */
+    @Override
     public double calcB(double B, double A, double S, double M){
         double res;
         res = Math.toDegrees(S * Math.cos(Math.toRadians(A))/M) + B;
         return res;
     }
 
+    /**
+     * розрахунок довготи цілі
+     * @param B - широта спостерігання в градусах
+     * @param A - азимут цілі в градусах
+     * @param L - довгота спостерігання в градусах
+     * @param S - дальність цілі
+     * @param N - допоміжний коефіцієнт
+     * @return довгота цілі в градусах
+     */
+    @Override
     public double calcL(double B, double A, double L, double S, double N){
         double res;
         res = Math.toDegrees(S * Math.sin(Math.toRadians(A))/(N * Math.cos(Math.toRadians(B)))) + L;
         return res;
     }
 
+    /**
+     *розраховує азимут цілі
+     * @param B - широта спостерігання в градусах
+     * @param A - азимут цілі в градусах
+     * @param S - дальність цілі
+     * @param N - допоміжний коефіцієнт
+     * @return азимут цілі
+     */
+    @Override
     public double calcA(double B, double A, double S, double N){
         double res;
         res = Math.toDegrees(S * Math.sin(Math.toRadians(A)) * Math.tan(Math.toRadians(B)) / N) + A;

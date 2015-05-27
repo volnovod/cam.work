@@ -1,7 +1,7 @@
 package cam.aim.calc;
 
 import cam.aim.httprequests.MoveRequest;
-import cam.aim.rotate.RotateSurface;
+import cam.aim.rotate.RotateSurfaceImpl;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,7 +40,7 @@ public class JavaFXExample extends Application {
         primaryStage.setTitle("Example");
         MoveRequest moveRequest = new MoveRequest();
 
-        RotateSurface surface = new RotateSurface();
+        RotateSurfaceImpl surface = new RotateSurfaceImpl();
         surface.setTiltX(15);
         surface.setTiltY(0);
 
